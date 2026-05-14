@@ -1,4 +1,5 @@
-import { Instagram, Mail, Send, MessageCircle, Linkedin, Facebook, Youtube } from "lucide-react";
+import type { ReactElement } from "react";
+import { Instagram, Mail, Send, Linkedin, Facebook, Youtube } from "lucide-react";
 import type { Profile, SocialKey } from "@/lib/firebase";
 import defaultAvatar from "@/assets/avatar-default.png";
 import defaultCover from "@/assets/cover-default.jpg";
