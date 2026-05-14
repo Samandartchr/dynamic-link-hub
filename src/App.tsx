@@ -1,24 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { z } from "zod";
-import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { ProfileCard } from "@/components/ProfileCard";
 import { fetchProfile, isFirebaseConfigured, type Profile } from "@/lib/firebase";
-
-const searchSchema = z.object({
-  id: fallback(z.string(), "demo").default("demo"),
-});
-
-export const Route = createFileRoute("/")({
-  validateSearch: zodValidator(searchSchema),
-  head: () => ({
-    meta: [
-      { title: "Profile" },
-      { name: "description", content: "Personal profile card." },
-    ],
-  }),
-  component: Index,
-});
 
 const mockProfile: Profile = {
   name: "Noah Thompson",
@@ -36,11 +18,22 @@ const mockProfile: Profile = {
   },
 };
 
-function Index() {
-  const { id } = Route.useSearch();
+function getIdFromUrl(): string {
+  if (typeof window === "undefined") return "demo";
+  return new URLSearchParams(window.location.search).get("id") || "demo";
+}
+
+export default function App() {
+  const [id, setId] = useState<string>(() => getIdFromUrl());
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const onPop = () => setId(getIdFromUrl());
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -49,7 +42,11 @@ function Index() {
       setError(null);
       try {
         if (!isFirebaseConfigured()) {
-          if (!cancelled) setProfile({ ...mockProfile, name: id === "demo" ? mockProfile.name : `Profile #${id}` });
+          if (!cancelled)
+            setProfile({
+              ...mockProfile,
+              name: id === "demo" ? mockProfile.name : `Profile #${id}`,
+            });
           return;
         }
         const data = await fetchProfile(id);
