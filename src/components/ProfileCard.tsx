@@ -29,7 +29,7 @@ function WhatsappIcon({ className }: { className?: string }) {
   );
 }
 
-const SOCIAL_META: Record<SocialKey, { label: string; Icon: (p: { className?: string }) => JSX.Element }> = {
+const SOCIAL_META: Record<SocialKey, { label: string; Icon: (p: { className?: string }) => ReactElement }> = {
   instagram: { label: "Instagram", Icon: ({ className }) => <Instagram className={className} strokeWidth={1.8} /> },
   x: { label: "X", Icon: XIcon },
   threads: { label: "Threads", Icon: ThreadsIcon },
