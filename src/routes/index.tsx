@@ -23,13 +23,16 @@ export const Route = createFileRoute("/")({
 const mockProfile: Profile = {
   name: "Noah Thompson",
   bio: "Product Designer who focuses on simplicity & usability.",
-  likes: 72900,
-  posts: 828,
-  views: 342900,
   socials: {
     instagram: "https://instagram.com",
     x: "https://x.com",
     threads: "https://threads.net",
+    email: "hello@example.com",
+    telegram: "noah",
+    whatsapp: "+10000000000",
+    linkedin: "https://linkedin.com",
+    facebook: "https://facebook.com",
+    youtube: "https://youtube.com",
   },
 };
 

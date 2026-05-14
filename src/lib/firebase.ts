@@ -29,19 +29,23 @@ export function getDb(): Firestore | null {
   return db;
 }
 
+export type SocialKey =
+  | "instagram"
+  | "x"
+  | "threads"
+  | "email"
+  | "telegram"
+  | "whatsapp"
+  | "linkedin"
+  | "facebook"
+  | "youtube";
+
 export type Profile = {
   name: string;
   bio: string;
   avatarUrl?: string;
   coverUrl?: string;
-  likes: number;
-  posts: number;
-  views: number;
-  socials?: {
-    instagram?: string;
-    x?: string;
-    threads?: string;
-  };
+  socials?: Partial<Record<SocialKey, string>>;
 };
 
 export async function fetchProfile(id: string): Promise<Profile | null> {
